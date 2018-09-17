@@ -6,6 +6,7 @@ import android.widget.RadioGroup;
 import com.exam.R;
 import com.exam.basecomponent.MvpActivity;
 import com.exam.basecomponent.view.CViewPager;
+import com.exam.category.CategoryFragment;
 import com.exam.homepage.HomeFragment;
 import com.exam.main.contract.MainContract;
 import com.exam.main.presenter.MainPresenter;
@@ -36,7 +37,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
 
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(new CategoryFragment());
         fragments.add(new HomeFragment());
 
         cPagerAdapter = new CPagerAdapter(getSupportFragmentManager(), fragments);

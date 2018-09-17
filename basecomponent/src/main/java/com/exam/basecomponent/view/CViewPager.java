@@ -29,11 +29,16 @@ public class CViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return isScrollable;
+        return isScrollable && super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public void setCurrentItem(int item) {
         super.setCurrentItem(item, false);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return isScrollable && super.onTouchEvent(ev);
     }
 }

@@ -31,4 +31,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
     implementation project(':homepage')
+    implementation project(':category')
 }

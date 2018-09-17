@@ -1,4 +1,4 @@
-if(isHomePage) {
+if(isCategory) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -10,14 +10,14 @@ android {
 
 
     defaultConfig {
-        if(isHomePage) {
-            applicationId "com.exam.homepage"
+        if(isCategory) {
+            applicationId "com.exam.category"
         }
-
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
     }
 
     buildTypes {
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly "com.noober.background:core:${BackLibraryVersion}"
-    compileOnly "com.android.support:appcompat-v7:${AppCompatVersion}"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
+    implementation project(':basecomponent')
 }
