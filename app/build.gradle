@@ -30,6 +30,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
-    implementation project(':homepage')
-    implementation project(':category')
+
+    implementation (project(':homepage'))
+
+    implementation (project(':category')) {
+        exclude module: 'basecomponent'
+        exclude group: 'com.android.support:*'
+        exclude group: 'com.noober.background:core:*'
+    }
 }

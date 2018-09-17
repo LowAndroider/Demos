@@ -1,4 +1,4 @@
-if(isCategory) {
+if (isCategory) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -10,7 +10,7 @@ android {
 
 
     defaultConfig {
-        if(isCategory) {
+        if (isCategory) {
             applicationId "com.exam.category"
         }
         minSdkVersion 21
@@ -31,6 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
+    compileOnly "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation project(':basecomponent')
+    compileOnly 'com.android.support.constraint:constraint-layout:1.1.3'
 }
