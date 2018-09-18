@@ -1,5 +1,6 @@
 package com.exam.category;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.exam.basecomponent.util.adapter.CommonAdapter;
 import com.exam.basecomponent.util.adapter.ViewHolder;
+import com.exam.category.live.LiveActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +49,17 @@ public class CategoryFragment extends Fragment {
             }
         };
         lvChannel.setAdapter(adapter);
+
+        lvChannel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String,Object> model = data.get(position);
+                Intent intent = new Intent(getActivity(), LiveActivity.class);
+                intent.putExtra("name", (String) model.get("name"));
+                intent.putExtra("url",(String) model.get("url"));
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {

@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import com.exam.category.R;
 
+/**
+ * @author djh
+ * @date 2018年09月17日 20:06:53
+ */
 public class LiveActivity extends AppCompatActivity {
 
     @Override
