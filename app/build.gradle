@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -23,6 +25,12 @@ android {
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs', '../../../../category/libs'
+        }
+    }
 }
 
 dependencies {
@@ -30,12 +38,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation (project(':homepage'))
 
-    implementation (project(':category')) {
-        exclude module: 'basecomponent'
-        exclude group: 'com.android.support:*'
-        exclude group: 'com.noober.background:core:*'
-    }
+    implementation (project(':category'))
 }

@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#ffffff</color>
+
+
+    <color name="player_panel_bg">#de262a3b</color>
 </resources>

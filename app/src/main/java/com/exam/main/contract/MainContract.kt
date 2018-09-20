@@ -1,21 +1,20 @@
-package com.exam.main.contract;
+package com.exam.main.contract
 
 /**
  * @author LowAndroider
  * @date 15:06
  */
 
-public interface MainContract {
+interface MainContract {
     interface Model {
-        /**
-         * 设置当前页面的标识
-         */
-        void setCurrentIndex(int index);
 
         /**
          * @return 当前页面的标识
          */
-        int getCurrentIndex();
+        /**
+         * 设置当前页面的标识
+         */
+        var currentIndex: Int
     }
 
     interface View {
@@ -24,13 +23,13 @@ public interface MainContract {
          * 切换页面
          * @param index
          */
-        void switchCard(int index);
+        fun switchCard(index: Int)
     }
 
     interface Presenter {
         /**
          * 设置当前页面的标识
          */
-        void setCurrentIndex(int index,View view);
+        fun setCurrentIndex(index: Int, view: View)
     }
 }

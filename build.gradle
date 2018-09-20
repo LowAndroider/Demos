@@ -8,21 +8,19 @@ ext {
 ext {
     isHomePage=false
     isCategory=false
-
     isCompile=false
-
 }
 
 buildscript {
-
+    ext.kotlin_version = '1.2.70'
     repositories {
-        jcenter(){ url 'http://jcenter.bintray.com/'}
+        jcenter(){ url 'http://jcenter.bintray.com'}
         google()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -33,6 +31,10 @@ allprojects {
     repositories {
         jcenter()
         google()
+
+        flatDir {
+            dirs '../../../category/libs'
+        }
     }
 }
 
