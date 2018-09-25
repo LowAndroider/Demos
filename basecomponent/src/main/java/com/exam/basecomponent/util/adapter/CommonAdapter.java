@@ -13,15 +13,14 @@ import java.util.List;
  * @date 14:40
  */
 
-public abstract class CommonAdapter<T> extends BaseAdapter
-{
+public abstract class CommonAdapter<T> extends BaseAdapter {
+
     protected Context mContext;
     protected List<T> mDatas;
     protected LayoutInflater mInflater;
     private int layoutId;
 
-    public CommonAdapter(Context context,int layoutId, List<T> datas )
-    {
+    public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
         this.mDatas = datas;
@@ -29,26 +28,22 @@ public abstract class CommonAdapter<T> extends BaseAdapter
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return mDatas.size();
     }
 
     @Override
-    public T getItem(int position)
-    {
+    public T getItem(int position) {
         return mDatas.get(position);
     }
 
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.get(mContext, convertView, parent,
                 layoutId, position);
         convert(holder, getItem(position));
@@ -57,4 +52,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter
 
     public abstract void convert(ViewHolder holder, T t);
 
+    public void load(List<T> datas) {
+        mDatas = datas;
+    }
 }

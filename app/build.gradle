@@ -5,10 +5,9 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     buildToolsVersion "27.0.3"
-
     defaultConfig {
         applicationId "com.exam"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -19,17 +18,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
-
     repositories {
         flatDir {
             dirs 'libs', '../../../../category/libs'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -39,7 +41,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation (project(':homepage'))
-
-    implementation (project(':category'))
+    implementation project(':homepage')
+    implementation project(':category')
 }

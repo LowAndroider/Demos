@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.exam.category.live.LiveActivity">
 
+    <TableLayout
+        android:id="@+id/hudView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:background="#77000000"
+        android:padding="8dp"
+        android:visibility="gone" />
+
     <com.exam.category.widget.media.IjkVideoView
         android:id="@+id/ijkVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
     <RelativeLayout
         android:id="@+id/rlLoading"

@@ -39,6 +39,10 @@ import android.widget.MediaController;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.exam.category.R;
+import com.exam.category.Settings;
+import com.exam.category.services.MediaPlayerService;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,7 +112,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     // private RenderingWidget.OnChangedListener mSubtitlesChangedListener;
 
     private Context mAppContext;
-//    private Settings mSettings;
+    private Settings mSettings;
     private IRenderView mRenderView;
     private int mVideoSarNum;
     private int mVideoSarDen;
@@ -151,7 +155,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     private void initVideoView(Context context) {
         mAppContext = context.getApplicationContext();
-
+        mSettings = new Settings(mAppContext);
         initBackground();
         initRenders();
 

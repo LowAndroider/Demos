@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import com.exam.basecomponent.util.adapter.CommonAdapter;
 import com.exam.basecomponent.util.adapter.ViewHolder;
+import com.exam.category.dao.MovieDao;
+import com.exam.category.entity.Movie;
 import com.exam.category.live.LiveActivity;
 
 import java.util.ArrayList;
@@ -23,17 +25,20 @@ import java.util.Map;
 /**
  * @author LowAndroider
  */
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends Fragment implements MovieDao.PermissionCallback {
 
     private ListView lvChannel;
-    private CommonAdapter adapter;
-    private List<Map<String,Object>> data;
+    private CommonAdapter<Movie> adapter;
+    private List<Movie> data;
+    private MovieDao movieDao;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_category,container,false);
         lvChannel = view.findViewById(R.id.lv);
+        movieDao = new MovieDao(getActivity());
+        movieDao.setPermissionCallback(this);
         return view;
     }
 
@@ -41,33 +46,50 @@ public class CategoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         data = new ArrayList<>();
-        initData();
-        adapter = new CommonAdapter<Map<String,Object>>(getActivity(), android.R.layout.simple_list_item_1, data) {
+        adapter = new CommonAdapter<Movie>(getActivity(), android.R.layout.simple_list_item_1, data) {
             @Override
-            public void convert(ViewHolder holder, Map<String,Object> o) {
-                holder.setText(android.R.id.text1, (String) o.get("name"));
+            public void convert(ViewHolder holder, Movie o) {
+                holder.setText(android.R.id.text1, o.getDisplayName());
             }
         };
         lvChannel.setAdapter(adapter);
 
-        lvChannel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String,Object> model = data.get(position);
-                Intent intent = new Intent(getActivity(), LiveActivity.class);
-                intent.putExtra("name", (String) model.get("name"));
-                intent.putExtra("url",(String) model.get("url"));
-                startActivity(intent);
-            }
+        lvChannel.setOnItemClickListener((parent, view1, position, id) -> {
+            Movie movie = data.get(position);
+            Intent intent = new Intent(getActivity(), LiveActivity.class);
+            intent.putExtra("movie",movie);
+            startActivity(intent);
         });
     }
 
-    private void initData() {
-        for(int i=0; i<5; i++) {
-            Map<String,Object> model = new HashMap<>();
-            model.put("name","CCTV" + (i+1));
-            model.put("url","");
-            data.add(model);
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if(movieDao.checkPermission()) {
+                refresh();
+            } else {
+                movieDao.reqPermission(requireActivity());
+            }
+
+        } catch (IllegalStateException ignored) {
         }
+    }
+
+    private void refresh() {
+        data = movieDao.getList();
+        adapter.load(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        refresh();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        movieDao.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
