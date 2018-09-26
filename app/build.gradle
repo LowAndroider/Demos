@@ -36,11 +36,14 @@ android {
 }
 
 dependencies {
-    implementation project(':basecomponent')
+    if(!isRelease) {
+        implementation project(':basecomponent')
+        implementation project(':homepage')
+        implementation project(':category')
+    }
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':homepage')
-    implementation project(':category')
 }

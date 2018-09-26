@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 /**
+ * ListView的通用adapter,不是很常用
  * @author LowAndroider
  * @date 14:40
  */

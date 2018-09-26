@@ -50,9 +50,11 @@ class LiveActivity : AppCompatActivity() {
         ijkVideoView.setHudView(hudView)
         ijkVideoView.setOnPreparedListener {
             rlLoading.visibility = View.GONE
-            it.start()
+//            it.start()
         }
     }
+
+
 
     private fun startOrContinue() {
     }
