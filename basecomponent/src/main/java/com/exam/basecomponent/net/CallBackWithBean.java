@@ -7,33 +7,32 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * @author LowAndroider
  * @date 2018/9/26
  */
-public abstract class CallBackWithBean<T extends Response> implements Callback {
+public abstract class CallBackWithBean<T> implements Callback {
 
     private Context mContext;
     private Handler handler;
     private Type mType;
 
-    public CallBackWithBean(Context context, TypeToken<T> type) {
+    public CallBackWithBean(Context context, Type type) {
         mContext = context;
         handler = new Handler(mContext.getMainLooper());
-        mType = type.getType();
+        mType = type;
     }
 
     @Override
     public void onFailure(Call call, IOException e) {
+        Log.e("httpInfo",e.getMessage());
         handler.post(() -> failure());
     }
 
@@ -65,6 +64,6 @@ public abstract class CallBackWithBean<T extends Response> implements Callback {
     }
 
     private void failure() {
-//        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
     }
 }

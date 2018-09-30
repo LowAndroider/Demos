@@ -11,6 +11,7 @@ import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author LowAndroider
@@ -23,7 +24,11 @@ public class OkHttpUtil {
         if (okHttpClientSingleInstance == null) {
             synchronized (OkHttpClient.class) {
                 if (okHttpClientSingleInstance == null) {
-                    okHttpClientSingleInstance = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+                    HttpLoggingInterceptor httpInterceptor = new HttpLoggingInterceptor(new HttpLogger());
+                    okHttpClientSingleInstance = new OkHttpClient.Builder()
+                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .addNetworkInterceptor(httpInterceptor)
+                            .build();
                 }
             }
         }
@@ -33,7 +38,7 @@ public class OkHttpUtil {
     public static Call get(String url, Callback callback) {
         OkHttpClient okHttpClient = getInstance();
         Request request = new Request.Builder()
-                .url(url)
+                .url(url(url))
                 .build();
 
         Call call = okHttpClient.newCall(request);
@@ -41,18 +46,22 @@ public class OkHttpUtil {
         return call;
     }
 
+    public static Call post(String url, Object data, Callback callback) {
+        return post(url, Converter.Companion.entity2Map(data), callback);
+    }
+
     public static Call post(String url, Map<String, Object> data, Callback callback) {
         OkHttpClient okHttpClient = getInstance();
         String value = "";
         FormBody.Builder requestBodyBuilder = new FormBody.Builder(Charset.forName("UTF-8"));
         if (data != null) {
-            Set<Map.Entry<String,Object>> entries = data.entrySet();
-            for (Map.Entry<String,Object> entry : entries) {
+            Set<Map.Entry<String, Object>> entries = data.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
                 requestBodyBuilder.add(entry.getKey(), entry.getValue().toString());
             }
         }
 
-        Request request = new Request.Builder().url(url)
+        Request request = new Request.Builder().url(url(url))
                 .post(requestBodyBuilder.build())
                 .build();
 
@@ -61,13 +70,17 @@ public class OkHttpUtil {
         return call;
     }
 
+    public static Call post(String url, Object header, Object body, Callback callback) {
+        return post(url, Converter.Companion.entity2Map(header), Converter.Companion.entity2Map(body), callback);
+    }
+
     public static Call post(String url, Map<String, Object> header, Map<String, Object> body, Callback callback) {
         OkHttpClient okHttpClient = getInstance();
         String value = "";
         FormBody.Builder requestBodyBuilder = new FormBody.Builder(Charset.forName("UTF-8"));
         if (body != null) {
-            Set<Map.Entry<String,Object>> entries = body.entrySet();
-            for (Map.Entry<String,Object> entry : entries) {
+            Set<Map.Entry<String, Object>> entries = body.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
                 requestBodyBuilder.add(entry.getKey(), entry.getValue().toString());
             }
         }
@@ -83,8 +96,9 @@ public class OkHttpUtil {
             }
         }
 
-        Request request = new Request.Builder().url(url)
-                .post(requestBodyBuilder.build()).headers(headerBuilder.build())
+        Request request = new Request.Builder().url(url(url))
+                .post(requestBodyBuilder.build())
+                .headers(headerBuilder.build())
                 .build();
 
         Call call = okHttpClient.newCall(request);
@@ -92,4 +106,7 @@ public class OkHttpUtil {
         return call;
     }
 
+    private static String url(String url) {
+        return ApiUrl.baseUrl + url;
+    }
 }

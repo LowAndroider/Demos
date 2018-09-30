@@ -46,4 +46,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${AppCompatVersion}"
     implementation "com.noober.background:core:${BackLibraryVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.freemarker:freemarker:2.3.28'
+    implementation "com.squareup.okhttp3:okhttp:${OkHttp3Version}"
 }
