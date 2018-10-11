@@ -16,9 +16,20 @@ class LoginActivity : MvpActivity<LoginContract.Presenter>(), LoginContract.View
         btnLogin.setOnClickListener {
             presenter.login(etName.text.toString(),etPwd.text.toString(),this)
         }
+
+        ivSettings.setOnClickListener {
+
+        }
     }
 
     override fun getPresenter(): LoginContract.Presenter {
         return LoginPresenter()
+    }
+
+    /**
+     * 设置 ip 和 端口号
+     */
+    private fun ipConfigDialog() {
+
     }
 }
